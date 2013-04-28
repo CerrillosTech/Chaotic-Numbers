@@ -27,7 +27,9 @@
  * 		OR WORSE, it may give a core a calculation that starts at a bigger number than the number it ends at (ie 57-54).
  * 		This may cause major problems if your program cannot correctly handle a range
  * 		of numbers where the start is larger than the end!
- * */
+ * 
+ * shuttleshuttle
+ */
 package com.cerrillostech.chaoticnumbers;
 import java.math.BigInteger;
 
