@@ -21,6 +21,25 @@ import java.math.BigInteger;
 
 public class ChaoticNumbers {
 	public static void main(String args[]){
+		QuantaNetTest();
+	}
+	
+	public static void QuantaNetTest(){
+		QuantaNet qn = new QuantaNet(true);
+		if(qn.checkUUID()){
+			System.out.println("has uuid");
+		} else {
+			System.out.println("doenst have uuid");
+		}
+		try {
+			qn.clientMode();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void LoadBalancerTest(){
 		//Testing Load Balancer
 		LoadBalance load = new LoadBalance(8, BigInteger.ZERO, new BigInteger("10000"));
 		try {
@@ -31,6 +50,5 @@ public class ChaoticNumbers {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 }
