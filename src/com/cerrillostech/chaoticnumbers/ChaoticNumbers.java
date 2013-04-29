@@ -18,10 +18,40 @@
 
 package com.cerrillostech.chaoticnumbers;
 import java.math.BigInteger;
+import java.util.Scanner;
 
 public class ChaoticNumbers {
+	private static Scanner key;
 	public static void main(String args[]){
-		QuantaNetTest();
+	//	QuantaNetTest();
+		menu();
+	}
+	
+	public static void menu(){
+		key = new Scanner(System.in);
+		System.out.print("Server mode or Client mode (s,c): ");
+		String mode = key.next();
+		if(mode.equals("s")){
+			QuantaNet qn = new QuantaNet(true);
+			qn.serverMode();
+			System.out.print("\n\nType q to stop\n\n");
+			String com = key.next();
+			if(com.equals("q")){
+				qn.closeServer();
+				System.exit(0);
+			}
+		} else if(mode.equals("c")){
+			QuantaNet qn = new QuantaNet(true);
+			qn.clientMode();
+			System.out.print("\n\nType q to stop\n\n");
+			String com = key.next();
+			if(com.equals("q")){
+				qn.closeClient();
+				System.exit(0);
+			}
+		} else {
+			menu();
+		}
 	}
 	
 	public static void QuantaNetTest(){
