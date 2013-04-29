@@ -33,6 +33,8 @@ public class ClientBroadcast extends Thread {
 	}
 	public void handshake(){
 		System.out.println("Attempting handshake with: "+foundServer.getHostAddress());
+		//Send challenge
+		// :SH:C_A:EH:
 	}
 	public void broadcast(){
 		byte[] data = "QUANTANET_CHAOTICNUMBERS_CLIENT_REQUEST".getBytes();

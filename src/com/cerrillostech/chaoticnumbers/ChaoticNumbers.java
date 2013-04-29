@@ -20,11 +20,20 @@ package com.cerrillostech.chaoticnumbers;
 import java.math.BigInteger;
 import java.util.Scanner;
 
+import com.cerrillostech.chaoticnumbers.quantanet.QuantaPacket;
+import com.cerrillostech.chaoticnumbers.quantanet.QuantaPacket.Header;
+import com.cerrillostech.chaoticnumbers.quantanet.QuantaPacket.Type;
+
 public class ChaoticNumbers {
 	private static Scanner key;
 	public static void main(String args[]){
 	//	QuantaNetTest();
-		menu();
+	//	menu();
+		QuantaPacket packet = new QuantaPacket(Header.BROADCAST, Type.CLIENT);
+		System.out.println(packet.toString());
+		if(packet.isBroadcast()){
+			System.out.println("Is a broadcast packet");
+		}
 	}
 	
 	public static void menu(){
