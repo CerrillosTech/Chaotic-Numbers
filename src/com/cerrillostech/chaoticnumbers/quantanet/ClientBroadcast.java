@@ -36,24 +36,26 @@ public class ClientBroadcast extends Thread {
 		sock.close();
 		System.out.println("Socket has been closed!");
 	}
-	public void handshake(){
-		System.out.println("Attempting handshake with: "+foundServer.getHostAddress());
-		Random ran = new Random();
-		chaAns = ran.nextInt(50000);
-		int cha = ((chaAns+42)*24);
-		QuantaPacket chapac = new QuantaPacket();
-		chapac.setHeader(Header.CHALLENGE);
-		chapac.setType(Type.REQUEST);
-		chapac.setDataType(Type.INTEGER);
-		chapac.setData(cha+"");
-		chapac.setFromType(Type.CLIENT);
-		chapac.setToType(Type.SERVER);
-		sendChallenge(chapac);
-	//	QuantaPacket
-		//Send challenge
-		// :SH:C_A:EH:
+	public void handshake(int count){
+		if(count!=3){
+			System.out.println("Attempting handshake with: "+foundServer.getHostAddress());
+			Random ran = new Random();
+			chaAns = ran.nextInt(50000);
+			int cha = ((chaAns+42)*24);
+			QuantaPacket chapac = new QuantaPacket();
+			chapac.setHeader(Header.CHALLENGE);
+			chapac.setType(Type.REQUEST);
+			chapac.setDataType(Type.INTEGER);
+			chapac.setData(cha+"");
+			chapac.setFromType(Type.CLIENT);
+			chapac.setToType(Type.SERVER);
+			sendChallenge(chapac, count);
+		} else {
+			System.out.println("Too many failedhandshake attemptes, rebroadcasting!");
+			broadcast();
+		}
 	}
-	public void sendChallenge(QuantaPacket qp){
+	public void sendChallenge(QuantaPacket qp, int count){
 		byte[] data = qp.toString().getBytes();
 		try{
 			DatagramPacket packet = new DatagramPacket(data, data.length, this.foundServer, 50411);
@@ -75,11 +77,12 @@ public class ClientBroadcast extends Thread {
 					System.out.println("Challenge completed!");
 				} else {
 					System.out.println("Challege answered incorrectly!!");
+					handshake(count+1);
 				}
 			}
 		} catch (Exception e){
 			System.out.println("Challenge Time out! Sending new challenge!");
-			handshake();
+			handshake(count+1);
 		}
 	}
 	public void broadcast(){
@@ -142,7 +145,7 @@ public class ClientBroadcast extends Thread {
 			if(message.equals(qpp.toString())){
 				System.out.println("Server: " + receivePacket.getAddress().getHostAddress() + " has been validated!");
 				this.foundServer = receivePacket.getAddress();
-				handshake();
+				handshake(0);
 			} else {
 				System.out.println("Server: " + receivePacket.getAddress().getHostAddress() + " has sent INVALID DATA!\nResending Reply " + (3-count) + " more times.");
 				respondToReply(message, receivePacket, count+1);
