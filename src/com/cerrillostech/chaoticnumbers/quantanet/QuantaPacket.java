@@ -2,7 +2,7 @@ package com.cerrillostech.chaoticnumbers.quantanet;
 
 public class QuantaPacket {
 	public enum Header {
-		ACCEPT("ACC"), DECLINE("DEC"), RESEND("RES"), CHALLENGE("CHA"), INVALID("INV"), BROADCAST("BRO"), DISCOVERY("DIS");
+		ACCEPT("ACC"), DECLINE("DEC"), RESEND("RES"), REGISTRATION("REG"), CHALLENGE("CHA"), INVALID("INV"), BROADCAST("BRO"), DISCOVERY("DIS");
 		private final String value;
 		private Header(String value){
 			this.value = value;
@@ -23,6 +23,8 @@ public class QuantaPacket {
 				return Header.BROADCAST;
 			} else if(in.equals("DIS")){
 				return Header.DISCOVERY;
+			} else if(in.equals("REG")){
+				return Header.REGISTRATION;
 			}
 			return Header.INVALID;
 		}
@@ -194,6 +196,7 @@ public class QuantaPacket {
 		}
 		return output;
 	}
+	/** Generic boolean checks */
 	public boolean toTypeIs(Type type){
 		if(this.toType.equals(type)){
 			return true;
@@ -227,6 +230,7 @@ public class QuantaPacket {
 		}
 		return false;
 	}
+	/** is boolean checks */
 	public boolean isBroadcast(){
 		if(this.header.equals(Header.BROADCAST)){
 			return true;
@@ -267,6 +271,12 @@ public class QuantaPacket {
 	}
 	public boolean isInvalid(){
 		if(this.header.equals(Header.INVALID)){
+			return true;
+		}
+		return false;
+	}
+	public boolean isRegistration(){
+		if(this.headerIs(Header.REGISTRATION)){
 			return true;
 		}
 		return false;
